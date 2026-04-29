@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import ReactDOM from 'react-dom/client';
 import { Chart, registerables } from 'chart.js';
 import { 
   Compass, Sparkles, RefreshCcw, Menu, X, Loader2,
