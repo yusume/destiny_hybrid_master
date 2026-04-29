@@ -1120,3 +1120,12 @@ export default function App() {
     </div>
   );
 } 
+
+import ReactDOM from 'react-dom/client';
+
+// 'root'라는 id를 가진 div에 App 컴포넌트를 그리라는 명령입니다.
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(<App />);
+}
