@@ -313,32 +313,36 @@ export default function App() {
     }
   };
 
-  const fetchChunkWithRetry = async (prompt, schema, retries = 5) => {
-    let delay = 1000;
-    for (let i = 0; i < retries; i++) {
-      try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`, {
+const fetchChunkWithRetry = async (prompt, schema, retries = 5) => {
+    let delay = 1000;
+    for (let i = 0; i < retries; i++) {
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: { 
-            temperature: 0.7,
-            responseMimeType: "application/json" 
-          }
+              temperature: 0.7,
+              responseMimeType: "application/json",
+              responseSchema: schema // 🚀 스키마 컴백! (정확한 데이터 구조를 위해 필수)
+            }
           })
         });
-        if (!response.ok) throw new Error("API 통신 실패");
-        const data = await response.json();
-        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
-        return JSON.parse(rawText);
-      } catch (err) {
-        if (i === retries - 1) throw err;
-        await new Promise(r => setTimeout(r, delay));
-        delay *= 2; 
-      }
-    }
-  };
+        if (!response.ok) throw new Error("API 통신 실패");
+        const data = await response.json();
+        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+        
+        // 🚀 방어적 프로그래밍: AI가 마크다운을 붙여 보낼 경우를 대비한 클렌징 필터
+        const cleanText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+        return JSON.parse(cleanText);
+      } catch (err) {
+        if (i === retries - 1) throw err;
+        await new Promise(r => setTimeout(r, delay));
+        delay *= 2; 
+      }
+    }
+  };
 
   const runNativeCoreEngine = async () => {
     let attempts = 0;
@@ -377,7 +381,7 @@ export default function App() {
     // 🚀 사주 대운 8기둥 계산
     let daewunData = [];
     try {
-        let dy = baZi.getDaYun(gender === '남성' ? 1 : 0).getDaYun();
+        let dy = baZi.getYun(gender === '남성' ? 1 : 0).getDaYun();
         for(let i=1; i<=8; i++) {
             if(dy[i]) {
                 const gz = dy[i].getGanZhi();
