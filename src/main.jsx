@@ -637,7 +637,7 @@ const fetchChunkWithRetry = async (prompt, schema, retries = 5) => {
       } catch (err) {
         setSectionsData(prev => ({ ...prev, [section.id]: { loading: false, error: true } }));
       }
-      await new Promise(r => setTimeout(r, 3500));
+      await new Promise(r => setTimeout(r, 5000));
     }
   };
 
