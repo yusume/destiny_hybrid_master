@@ -256,7 +256,7 @@ export default function App() {
       mainEl.style.overflow = 'visible';
       mainEl.style.height = 'max-content';
 
-      await new Promise(r => setTimeout(r, 1000)); 
+      await new Promise(r => setTimeout(r, 3500)); 
 
       let currentY = 10;
 
