@@ -10,7 +10,7 @@ import { 
 
 Chart.register(...registerables);
 
-const API_KEY = ""; // 실행 환경에서 자동으로 주입됩니다.
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
 
 const SECTIONS_METADATA = [
   { id: "sec-orig", title: "☯ 운명의 뼈대 (명반)", icon: <Compass size={18}/>, sub: ["나의 본질 (명궁)", "주요 재능과 무기", "운명의 흐름", "전체 총평"] },
