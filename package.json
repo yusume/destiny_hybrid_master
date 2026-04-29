@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --base=/destiny_hybrid_master/",
     "preview": "vite preview"
   },
   "dependencies": {
