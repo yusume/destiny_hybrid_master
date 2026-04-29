@@ -319,12 +319,12 @@ export default function App() {
       try {
         const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { responseMimeType: "application/json", responseSchema: schema }
-          })
-        });
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.7 } 
+          })
+        });
         if (!response.ok) throw new Error("API 통신 실패");
         const data = await response.json();
         const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
